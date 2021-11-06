@@ -14,8 +14,8 @@ jobs:
 
         - name: Dependencies
           run: |
-              sudo sed -i 's/focal/impish/g' /etc/apt/sources.list
-              sudo sed -i 's/focal/impish/g' /etc/apt/sources.list.d/*
+              sudo sed -i 's/focal/hirsute/g' /etc/apt/sources.list
+              sudo sed -i 's/focal/hirsute/g' /etc/apt/sources.list.d/*
               sudo sed -i 's/20\.04/21.04/g' /etc/apt/sources.list.d/*
               sudo apt update
               sudo apt -y dist-upgrade
