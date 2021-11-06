@@ -142,7 +142,7 @@ The following environment variables are supported:
 
    Username for the first user
 
- * `FIRST_USER_PASS` (Default: "raspberry")
+ * `FIRST_USER_PASS` (Default: "raspiblitz")
 
    Password for the first user
 
