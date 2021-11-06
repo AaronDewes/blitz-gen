@@ -1,5 +1,4 @@
-ARG BASE_IMAGE=debian:bullseye
-FROM ${BASE_IMAGE}
+FROM debian:bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 
