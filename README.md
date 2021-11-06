@@ -1,16 +1,16 @@
-# pi-gen
+# blitz-gen
 
-Tool used to create Raspberry Pi OS images. (Previously known as Raspbian).
+Experimental new tool used to create RaspiBlitz images.
 
 
 ## Dependencies
 
-pi-gen runs on Debian-based operating systems. Currently it is only supported on
+blitz-gen runs on Debian-based operating systems. Currently it is only supported on
 either Debian Buster or Ubuntu Xenial and is known to have issues building on
 earlier releases of these systems. On other Linux distributions it may be possible
 to use the Docker build described below.
 
-To install the required dependencies for `pi-gen` you should run:
+To install the required dependencies for `blitz-gen` you should run:
 
 ```bash
 apt-get install coreutils quilt parted qemu-user-static debootstrap zerofree zip \
@@ -33,7 +33,7 @@ The following environment variables are supported:
  * `IMG_NAME` **required** (Default: unset)
 
    The name of the image to build with the current stage directories.  Setting
-   `IMG_NAME=Raspbian` is logical for an unmodified RPi-Distro/pi-gen build,
+   `IMG_NAME=blitz-os` is logical for an unmodified blitz-gen build,
    but you should use something else for a customized version.  Export files
    in stages may add suffixes to `IMG_NAME`.
 
@@ -81,12 +81,12 @@ The following environment variables are supported:
 
    **CAUTION**: Currently, changing this value will probably break build.sh
 
-   Top-level directory for `pi-gen`.  Contains stage directories, build
+   Top-level directory for `blitz-gen`.  Contains stage directories, build
    scripts, and by default both work and deployment directories.
 
  * `WORK_DIR`  (Default: `"$BASE_DIR/work"`)
 
-   Directory in which `pi-gen` builds the target system.  This value can be
+   Directory in which `blitz-gen` builds the target system.  This value can be
    changed if you have a suitably large, fast storage location for stages to
    be built and cached.  Note, `WORK_DIR` stores a complete copy of the target
    system for each build stage, amounting to tens of gigabytes in the case of
@@ -168,12 +168,12 @@ The following environment variables are supported:
 
  * `STAGE_LIST` (Default: `stage*`)
 
-    If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the pi-gen directory.
+    If set, then instead of working through the numeric stages in order, this list will be followed. For example setting to `"stage0 stage1 mystage stage2"` will run the contents of `mystage` before stage2. Note that quotes are needed around the list. An absolute or relative path can be given for stages outside the blitz-gen directory.
 
-A simple example for building Raspbian:
+A simple example for building Blitz OS:
 
 ```bash
-IMG_NAME='Raspbian'
+IMG_NAME='blitz-os'
 ```
 
 The config file can also be specified on the command line as an argument the `build.sh` or `build-docker.sh` scripts.
@@ -256,7 +256,7 @@ CONTINUE=1 ./build-docker.sh
 To examine the container after a failure you can enter a shell within it using:
 
 ```bash
-sudo docker run -it --privileged --volumes-from=pigen_work pi-gen /bin/bash
+sudo docker run -it --privileged --volumes-from=pigen_work blitz-gen /bin/bash
 ```
 
 After successful build, the build container is by default removed. This may be undesired when making incremental changes to a customized build. To prevent the build script from remove the container add
@@ -313,7 +313,7 @@ maintenance and allows for more easy customization.
    development purposes on a minimal system such as basic Python and Lua
    packages as well as the `build-essential` package.  They are lumped right
    in with more essential packages presently, though they need not be with
-   pi-gen.  These are understandable for Raspbian's target audience, but if
+   blitz-gen.  These are understandable for Raspbian's target audience, but if
    you were looking for something between truly minimal and Raspbian-Lite,
    here's where you start trimming.
 
@@ -332,14 +332,14 @@ If you wish to build up to a specified stage (such as building up to stage 2
 for a lite system), place an empty file named `SKIP` in each of the `./stage`
 directories you wish not to include.
 
-Then add an empty file named `SKIP_IMAGES` to `./stage4` and `./stage5` (if building up to stage 2) or
+Then add an empty file named `SKIP_IMAGES` to `./stage5` (if building up to stage 2) or
 to `./stage2` (if building a minimal system).
 
 ```bash
 # Example for building a lite system
 echo "IMG_NAME='Raspbian'" > config
 touch ./stage3/SKIP ./stage4/SKIP ./stage5/SKIP
-touch ./stage4/SKIP_IMAGES ./stage5/SKIP_IMAGES
+touch ./stage5/SKIP_IMAGES
 sudo ./build.sh  # or ./build-docker.sh
 ```
 
@@ -437,7 +437,7 @@ Please note there is currently an issue when compiling with a 64 Bit OS. See htt
 ## `binfmt_misc`
 
 Linux is able execute binaries from other architectures, meaning that it should be
-possible to make use of `pi-gen` on an x86_64 system, even though it will be running
+possible to make use of `blitz-gen` on an x86_64 system, even though it will be running
 ARM binaries. This requires support from the [`binfmt_misc`](https://en.wikipedia.org/wiki/Binfmt_misc)
 kernel module.
 
