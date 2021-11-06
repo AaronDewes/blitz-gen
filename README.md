@@ -326,10 +326,6 @@ maintenance and allows for more easy customization.
    stage that installs most things that make Raspbian friendly to new
    users like system documentation.
 
- - **Stage 5** - The Raspbian Full image. More development
-   tools, an email client, learning tools like Scratch, specialized packages
-   like sonic-pi, office productivity, etc.  
-
 ### Stage specification
 
 If you wish to build up to a specified stage (such as building up to stage 2
