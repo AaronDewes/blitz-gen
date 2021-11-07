@@ -37,9 +37,6 @@ dependencies_check()
 		aarch64)
 			binfmt_misc_required=0
 			;;
-		arm*)
-			binfmt_misc_required=0
-			;;
 	esac
 
 	if [[ "${binfmt_misc_required}" == "1" ]]; then

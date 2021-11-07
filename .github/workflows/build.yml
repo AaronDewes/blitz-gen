@@ -35,6 +35,7 @@ jobs:
               IMG_FILENAME=$IMAGE_NAME
               ZIP_FILENAME=$IMAGE_NAME
               EOF
+              sudo apt install binfmt-support -y
               sudo modprobe binfmt_misc
               sudo IMG_FILENAME=$IMAGE_NAME ZIP_FILENAME=$IMAGE_NAME CITADEL_OS_VERSION=$CITADEL_OS_VERSION ./build-docker.sh
         - name: Copy ZIP to current working dir
