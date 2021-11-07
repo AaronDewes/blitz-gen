@@ -1,0 +1,15 @@
+qrencode
+btrfs-tools
+secure-delete
+fbi
+ssmtp
+unclutter xterm python3-pyqt5
+xfonts-terminus
+nginx apache2-utils
+nginx
+python3-jinja2
+socat
+libatlas-base-dev
+mariadb-server mariadb-client
+hexyl
+autossh
