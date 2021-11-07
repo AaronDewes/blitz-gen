@@ -44,7 +44,7 @@ dependencies_check()
 			echo "Module binfmt_misc not loaded in host"
 			echo "Please run:"
 			echo "  sudo modprobe binfmt_misc"
-			exit 1
+			#exit 1
 		fi
 	fi
 }
