@@ -12,6 +12,16 @@ jobs:
           with:
             fetch-depth: 0
 
+        - name: Dependencies
+          run: |
+              sudo sed -i 's/focal/hirsute/g' /etc/apt/sources.list
+              sudo sed -i 's/focal/hirsute/g' /etc/apt/sources.list.d/*
+              sudo sed -i 's/20\.04/21.04/g' /etc/apt/sources.list.d/*
+              sudo apt update
+              sudo apt -y dist-upgrade
+              sudo apt install binfmt-support qemu-user-static quilt debootstrap apt-cacher-ng libarchive-tools qemu-utils
+              sudo sed 's/# PassThroughPattern:.*this would allow.*/PassThroughPattern: .* #/' -i /etc/apt-cacher-ng/acng.conf
+              sudo chmod -R 0777 /var/cache/apt-cacher-ng
         - name: Set image name
           run: |
               echo "IMAGE_NAME=blitz-os-test"  >> $GITHUB_ENV
@@ -30,14 +40,8 @@ jobs:
         - name: Run build script
           run: |
               echo "Building $IMAGE_NAME"
-              cat <<EOF > config
-              IMG_NAME=$IMAGE_NAME
-              IMG_FILENAME=$IMAGE_NAME
-              ZIP_FILENAME=$IMAGE_NAME
-              EOF
-              sudo apt install binfmt-support -y
-              sudo modprobe binfmt_misc
-              sudo IMG_FILENAME=$IMAGE_NAME ZIP_FILENAME=$IMAGE_NAME CITADEL_OS_VERSION=$CITADEL_OS_VERSION ./build-docker.sh
+              sudo docker system prune --all --force
+              sudo IMG_FILENAME=$IMAGE_NAME ZIP_FILENAME=$IMAGE_NAME CITADEL_OS_VERSION=$CITADEL_OS_VERSION ./build.sh
         - name: Copy ZIP to current working dir
           run: cp deploy/*.zip ./
 
